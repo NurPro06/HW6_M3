@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hw6_m3.databinding.FragmentCountryBinding
 
@@ -23,21 +24,15 @@ class CountryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val args = CountryFragmentArgs.fromBundle(requireArguments())
 
-        val continent = arguments?.getString("key1") ?: return
+        val continent = args.continent
         loadCountries(continent)
 
         val countryAdapter = CountryAdapter(countryList) { position ->
-            val cityFragment = CityFragment().apply {
-                arguments = Bundle().apply {
-                    putString("key2", countryList[position])
+            val action = CountryFragmentDirections.actionToCityFragment(countryList[position])
+            findNavController().navigate(action)
                 }
-            }
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, cityFragment)
-                .addToBackStack(null)
-                .commit()
-        }
 
         binding.rvCountry.apply {
             layoutManager = LinearLayoutManager(context)
@@ -49,8 +44,11 @@ class CountryFragment : Fragment() {
         countryList.clear()
         when (continent) {
             "Eurasia" -> countryList.addAll(listOf("Russia", "Kyrgyzstan", "China"))
-            "Africa" -> countryList.addAll(listOf("Egypt", "Nigeria"))
-            // Добавьте остальные континенты
+            "Africa" -> countryList.addAll(listOf("Egypt", "Nigeria", "Morocco"))
+            "North America" -> countryList.addAll(listOf("Canada", "USA", "Mexico"))
+            "South America" -> countryList.addAll(listOf("Brazil", "Argentina", "Columbia"))
+
+
         }
     }
 }

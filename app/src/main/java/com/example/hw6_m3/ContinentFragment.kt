@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hw6_m3.databinding.FragmentContinentBinding
 
 class ContinentFragment : Fragment() {
 
     private lateinit var binding: FragmentContinentBinding
-    private val continentList = arrayListOf("Eurasia", "Africa", "North America", "South America", "Australia")
+    private val continentList = arrayListOf("Eurasia", "Africa", "North America", "South America")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,15 +27,8 @@ class ContinentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val continentAdapter = ContinentAdapter(continentList) { position ->
-            val countryFragment = CountryFragment().apply {
-                arguments = Bundle().apply {
-                    putString("key1", continentList[position])
-                }
-            }
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, countryFragment)
-                .addToBackStack(null)
-                .commit()
+            val action = ContinentFragmentDirections.actionToCountryFragment(continentList[position])
+            findNavController().navigate(action)
         }
 
         binding.rvContinent.apply {

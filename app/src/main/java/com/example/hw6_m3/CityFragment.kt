@@ -23,12 +23,13 @@ class CityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val args = CityFragmentArgs.fromBundle(requireArguments())
 
-        val country = arguments?.getString("key2") ?: return
+        val country = args.country
         loadCities(country)
 
         val cityAdapter = CityAdapter(cityList) { position ->
-            // Обработка клика
+
         }
 
         binding.rvCities.apply {
@@ -43,7 +44,17 @@ class CityFragment : Fragment() {
             "Russia" -> cityList.addAll(listOf("Moscow", "Saint Petersburg", "Novosibirsk"))
             "Kyrgyzstan" -> cityList.addAll(listOf("Bishkek", "Osh", "Batken"))
             "China" -> cityList.addAll(listOf("Beijing", "Shanghai", "Guangzhou"))
-            // Добавьте остальные страны
+            "Egypt" -> cityList.addAll(listOf("Cairo", "Alexandria", "Giza"))
+           "Nigeria" -> cityList.addAll(listOf("Ibadan", "Awka", "Lagos"))
+            "Morocco" -> cityList.addAll(listOf("Casablanca", "Rabat", "Fes"))
+            "Canada" -> cityList.addAll(listOf("Ottawa", "Toronto", "Montreal"))
+            "USA" -> cityList.addAll(listOf("New York", "Los Angeles", "Chicago"))
+            "Columbia" -> cityList.addAll(listOf("Cali", "Bogota", "Cartagena"))
+            "Brazil" -> cityList.addAll(listOf("Sau Paulo", "Brasilia", "Rio de Janeiro"))
+            "Argentina" -> cityList.addAll(listOf("Buenos Aires", "Rosario", "Cordoba"))
+            "Mexico" -> cityList.addAll(listOf("Mexico City", "Tijuana", "Leon"))
+
+
         }
     }
 }
